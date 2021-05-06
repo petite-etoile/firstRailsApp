@@ -126,6 +126,14 @@ protect_from_forgery
     <%= select_tag(《ID》, options_for_select(配列), {size:行数, multiple:複数選択可能にするならtrue, class:"クラス名"} )) %>
 ```
 
+<br>
+
+* `[index15]` オリジナルのレイアウトを適用
+    1. メインのレイアウトを作る(`/app/views/layouts/hello.html.erb`)
+    2. ヘッダーとフッターを作る(`/app/views/layouts/hello_header.html.erb`, `/app/views/layouts/hello_footer.html.erb`)
+    3. コントローラでアクション宣言前に`layout hello`を記述するとデフォルトの`/app/views/layouts/application.html.erb`ではなく, `/app/views/layouts/hello.html.erb`を参照するようになる
+
+
 <br><br>
 ## メモ
 * /app/views/コントローラ名/*.html.erb にはbodyの中身だけ書けばよい
@@ -151,6 +159,8 @@ GETは「いつ、どこからどうアクセスしても常に同じ結果が�
 
 * フォームヘルパーを使うとなぜCSRF対策を通過できるのか
 > 普通に`<form>`タグを書くのと何が違うのでしょう。その疑問を解決するために、フォームヘルパーを使って表示されたフォームのソースコードがどうなっているか見てみましょう。(中略)なんだか見覚えのない`<inpupt type="hidden">`タグが2つ追加されているのがわかりますね。ここで、フォームに必要な情報を付け足していたのです。フォームを送信されたコントローラ側では、これらの値をチェックし、それがRailsアプリに用意されているフォームから送信されたものであることを確認してからフォーム受信の処理を行うようになっていたのです。
+
+<br>
 
 * フォームヘルパーの他のやつ
     * テキストエリア(複数行のテキスト) 
@@ -207,10 +217,15 @@ GETは「いつ、どこからどうアクセスしても常に同じ結果が�
     <%= number_field( 名前,  初期値, in: 最小値..最大値, step: ステップ数 ) %>
     <%= range_field( 名前,  初期値, in: 最小値..最大値) %>
     ```
-    
-    
 
+<br>
 
+* レイアウトするテンプレートは `/app/views/layouts/` にあり,デフォルトで3つのファイルがある
+    |   |   | 
+    | :--- | :--- | 
+    |application.html.erb | Railsアプリケーションでデフォルトで使われるWebページのレイアウト|
+    | mailer.html.erb | メール送信用に用意されたもので, <br>HTMLメールのレイアウトとして用いられる|
+    | mailer.text.erb | テキストメールのレイアウトとして用いられる|
 
 
 

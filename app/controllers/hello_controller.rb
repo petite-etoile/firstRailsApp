@@ -194,4 +194,10 @@ class HelloController < ApplicationController
         end
     end
 
+    layout "hello"
+    def index15
+        @header = "layout sample"
+        @footer = "copyright ONO TAKAKI 2021"
+        @msg = "this is simple page aaaaaaaaaaaaaaaaaaaa"
+    end
 end
