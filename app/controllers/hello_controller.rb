@@ -1,5 +1,6 @@
 class HelloController < ApplicationController
-    protect_from_forgery
+    # protect_from_forgery #HTMLタグでフォームを書いたときの対処法
+
     def index1
         #http://localhost:3000/hello/index1
         render plain:"Hello, This is Rails sample page!"
@@ -87,17 +88,90 @@ class HelloController < ApplicationController
         redirect_to action: :index7, params: {"msg": "from other page"}
     end
 
-    def index
+    def index8
+        #http://localhost:3000/hello/index8
         if request.post?
             @title = "Result"
             @msg = "you typed: #{params["input1"]}."
             @value = "#{params["input1"]}"
         else
-            @tile = "Index"
+            @title = "Index"
             @msg = "type text"
             @value = ""
         end
     end
 
+    def index9
+        #http://localhost:3000/hello/index9
+        if request.post?
+            @title = "Result"
+            @msg = "you typed: #{params["input1"]}."
+            @value = "#{params["input1"]}"
+        else
+            @title = "Index"
+            @msg = "type text"
+            @value = ""
+        end
+    end
 
+    def index10
+        #http://localhost:3000/hello/index10
+        if request.post?
+            @title = "Result"
+            @msg = "you typed: #{params["input1"]}."
+            @value = "#{params["input1"]}"
+        else
+            @title = "Index"
+            @msg = "type text"
+            @value = ""
+        end
+    end
+
+    def index11
+        #http://localhost:3000/hello/index11
+        if request.post?
+            @title = "Result"
+            if params["check1"]
+                @msg = "you Checked!"
+            else
+                @msg = "not checked."
+            end
+        else
+            @title = "Index"
+            @msg = "Check it"
+        end
+    end
+
+
+
+    def index12
+        #http://localhost:3000/hello/index12
+        if request.post?
+            @title = "Result"
+            if params["r1"]
+                @msg = "you selected #{params["r1"]}"
+            else
+                @msg = "not selected."
+            end
+        else
+            @title = "Index"
+            @msg = "select radio button it"
+        end
+    end
+
+    def index13
+        #http://localhost:3000/hello/index13
+        if request.post?
+            @title = "Result"
+            if params["s1"]
+                @msg = "you selected #{params["s1"]}"
+            else
+                @msg = "not selected."
+            end
+        else
+            @title = "Index"
+            @msg = "select radio button it"
+        end
+    end
+    
 end

@@ -10,10 +10,12 @@ bodyの中だけで良い
 <h1 class="display-4"> <%= @title%></h1>
 <p> <%= @msg %></p>
 
-<%= form_tag( controller: "hello", action: "index13" ) do %>
-    <%= select_tag("s1", options_for_select(["Windows", "macOS", "Linux"])) %>
-    <%= label_tag("s1", "Select radio button") %> <br>
+<%= form_tag(controller: "hello", action: "index12" ) do %>
+    <%= radio_button_tag("r1", "radio 1") %>
+    <%= label_tag("r1_radio_1", "Radio button 1") %> <br>
 
+    <%= radio_button_tag("r1", "radio 2") %>
+    <%= label_tag("r1_radio_2", "Radio button 2") %> <br>
     <%= submit_tag("Click", {class:"btn btn-primary"}) %>
 <% end %>
 

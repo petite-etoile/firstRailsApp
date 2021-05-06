@@ -10,12 +10,11 @@ bodyの中だけで良い
 <h1 class="display-4"> <%= @title%></h1>
 <p> <%= @msg %></p>
 
-<%= form_tag( controller: "hello", action: "index13" ) do %>
-    <%= select_tag("s1", options_for_select(["Windows", "macOS", "Linux"])) %>
-    <%= label_tag("s1", "Select radio button") %> <br>
+<form method="POST" action="/hello/index8">
+    <input type="text" class="form-control" name="input1" value="<%= @value %>">
 
-    <%= submit_tag("Click", {class:"btn btn-primary"}) %>
-<% end %>
+    <input type="submit" class="btn btn-primary" >
 
+</form>
 
 

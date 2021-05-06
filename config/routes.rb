@@ -10,9 +10,19 @@ Rails.application.routes.draw do
   get "hello/index5"
   get "hello/index6"
   get "hello/index7"
+  get "hello/index8"
+  get "hello/index9"
+  get "hello/index10"
+  get "hello/index11"
+  get "hello/index12"
   get "hello/other"
 
   post "hello/index"
+  post "hello/index8"
+  post "hello/index9"
+  post "hello/index10"
+  post "hello/index11"
+  post "hello/index12"
 
 
 
