@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get "hello/index10"
   get "hello/index11"
   get "hello/index12"
+  get "hello/index13"
   get "hello/other"
 
   post "hello/index"
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
   post "hello/index10"
   post "hello/index11"
   post "hello/index12"
+  post "hello/index13"
 
 
 

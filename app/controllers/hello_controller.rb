@@ -174,4 +174,24 @@ class HelloController < ApplicationController
         end
     end
     
+    def index14
+        #http://localhost:3000/hello/index14
+        if request.post?
+            @title = "Result"
+            if params["s1"]
+                @msg = "you selected:"
+                for lang in params["s1"]
+                    @msg += lang
+                    puts lang
+
+                end
+            else
+                @msg = "not selected."
+            end
+        else
+            @title = "Index"
+            @msg = "select radio button it"
+        end
+    end
+
 end
