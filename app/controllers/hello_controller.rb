@@ -196,6 +196,7 @@ class HelloController < ApplicationController
 
     layout "hello"
     def index15
+        #http://localhost:3000/hello/index15
         @header = "layout sample"
         @footer = "copyright ONO TAKAKI 2021"
         @msg = "this is simple page aaaaaaaaaaaaaaaaaaaa"
