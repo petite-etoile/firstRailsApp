@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get "hello/index12"
   get "hello/index13"
   get "hello/index14"
-  get "hello/index15"
+  get "hello/index15" 
   get "hello/other"
 
   post "hello/index"
@@ -41,9 +41,25 @@ Rails.application.routes.draw do
 
 
   get 'people/index'
-  get 'people' => "index"
-  get 'people/:id' => "people#show"
+  get 'people/index1'
+  get 'people/index2'
+  get 'people/index3'
+  get 'people' => "people#index"
+  
+  get  "people/add"
+  post "people/add" => "people#create"
+  get  "people/add1"
+  post "people/add1" => "people#create1"
+  get  "people/add2"
+  post "people/add2" => "people#create2"
 
+  get "people/edit/:id" => "people#edit"
+  patch "people/update/:id" => "people#update"
+  
+  get "people/delete/:id" => "people#delete"
+
+  
+  get 'people/:id' => "people#show"
 
 
 

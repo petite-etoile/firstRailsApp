@@ -82,7 +82,7 @@
 
 * `[index9]` HTMLタグでformを書いたときは上記を使ったが, Rails本来の使い方ではない. ここで以下のようにformを作ると`protect_from_forgery`を消しても通過する
     ```
-    <%= form_tag(controller: コントローラ名, action: アクション名) do %> //<form method="POST" action="/コントローラ名/アクション名">
+    <%= form_tag(controller: コントローラ名, action: アクション名) do %> //<form method="POST" action="/コントローラ名/アクション名" do %>
         <%= text_field_tag(《ID》) %>                                //<input type="text" id=《ID》>
         <%= submit_tag("Click") %>                                  //<input type="submit">
     <% end %>
@@ -145,6 +145,7 @@
 
 * テキストフィールドに入力されたものを`data.txt`に保存して, 24時間以内に投稿されたもののみ表示する. データの形式は`JSON`
 
+<br> <br>
 
 ### peopleコントローラ
 
@@ -175,7 +176,81 @@
 
 * `people`コントローラを作成
 
-* `[index1]`
+* `[index1, show]` PeopleのデータのID,Nameを表示し, Nameを表示している部分にデータを表示するページへのリンクを貼る
+
+* `[add1]` Peopleにデータを追加するページ.
+    
+* ルーティング情報は,
+    ```
+        get "people/add"
+        get "people/:id" => "people#show"
+    ```
+    のようにすると`people/add`にアクセスした時に `:id="add"`と判断されてしまうので,
+    ```
+        get "people/:id" => "people#show"
+        get "people/add"
+    ```
+    のようにする
+
+* リダイレクトは, 以下のどちらでも可
+    ```
+        redirect_to アドレス
+        redirect_to action: :アクション名, params:{・・・ハッシュ・・・}
+    ``` 
+
+* `[add2]` モデルをフォームに適用する
+    ```
+    form_for( モデル, url:{controller: コントローラ名, action: アクション名} )
+        ・・・変数.text_field などでコントロールを作成・・・
+    end
+    ```
+    フォームヘルパーでは以下のよう
+    ```
+    <form class="new_person" id="new_person" action="/people/add2" accept-charset="UTF-8" method="post">
+        <input type="hidden" name="authenticity_token" value=略 />
+        <input class="form-control" type="text" name="person[name]" id="person_name" />
+        <input class="form-control" type="text" name="person[age]" id="person_age" />
+        <input class="form-control" type="text" name="person[mail]" id="person_mail" />
+
+        <input type="submit" name="commit" value="Create Person" class="btn btn-primary" data-disable-with="Create Person" />
+    </form>
+    ```
+    `name=person[name]`のようになっているので, 受け取ったアクションでは, `params[:person]`というところに送られたフォームの内容がハッシュとしてまとめられる.
+
+* フォームヘルパーを使った場合,`Person.create(params[:person])`ではエラーになる(paramsのパーミッションがないから)
+    以下のようにチェック済みのparamsを使ってた
+    ```
+    def アクション
+        Person.create(person_params())
+    end
+
+    privete
+    def person_params
+        return params.require(:person).permit(:name, :age, :mail)
+    end
+    ```
+
+* `[index2, edit, update]` データの更新
+    ```
+    obj = Person.find(params[:id])
+    obj.update(person_params)
+    ```
+
+* ルーティング情報の設定. データ更新のためのフォーム送信は, POSTではなく「PUT」という送信方式を使っている. が, PUTは対応していない環境があるため, Railsのシステムで「PATCH」という送信方式を用意してそれを使っている. ルーティングは以下のように書く
+    ```
+    patch "people/update/:id" => "people/update
+    ```
+
+* `[index3, delete]` データの削除
+    ```
+    obj = Person.find(params[:id])
+    obj.destroy()
+    ```
+
+
+
+
+
 
 
 <br><br>
