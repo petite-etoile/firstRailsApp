@@ -247,6 +247,62 @@
     obj.destroy()
     ```
 
+<br><br>
+
+### cardsコントローラ
+
+* モデルとコントローラを作成
+    ```
+    $ generate model card title:text author:text price:integer publisher:text memo:text
+        Running via Spring preloader in process 19586
+            invoke  active_record
+            create    db/migrate/20210514072203_create_cards.rb
+            create    app/models/card.rb
+            invoke    test_unit
+            create      test/models/card_test.rb
+            create      test/fixtures/cards.yml
+
+    $ db:migrate
+        == 20210514072203 CreateCards: migrating ======================================
+        -- create_table(:cards)
+        -> 0.0018s
+        == 20210514072203 CreateCards: migrated (0.0018s) =============================
+
+
+    $ generate controller cards index show add edit
+        Running via Spring preloader in process 19623
+            create  app/controllers/cards_controller.rb
+            route  get 'cards/index'
+        get 'cards/show'
+        get 'cards/add'
+        get 'cards/edit'
+            invoke  erb
+            create    app/views/cards
+            create    app/views/cards/index.html.erb
+            create    app/views/cards/show.html.erb
+            create    app/views/cards/add.html.erb
+            create    app/views/cards/edit.html.erb
+            invoke  test_unit
+            create    test/controllers/cards_controller_test.rb
+            invoke  helper
+            create    app/helpers/cards_helper.rb
+            invoke    test_unit
+            invoke  assets
+            invoke    scss
+            create      app/assets/stylesheets/cards.scss
+
+    ```
+
+* アクション(CRUD)
+    |||
+    |----|----|
+    |index | `Card.all`でデータを取り出し, `@cards`に格納|
+    |show  | idパラメータの値を元に`Card.find`でそのIDのデータを取り出し, `@card`に格納|
+    |add   | POSTを送信された場合は`card_params`の値を元に, `Card.create`でデータを作成.<br>そうでなければ, `Card.new`で新しいインスタンスを`@card`に格納  
+    |edit  | idパラメータの値を元に`Card.find`でそのIDのデータを取り出し, `@card`に保管します. POST送信されていた場合, `card_params`を引数に指定して`update`を呼, データを更新 |
+    |delete|  idパラメータの値を元に, `Card.find`でそのIDのデータを取り出し, そのインスタンスの`destroy`を呼び出してデータを削除|
+
+* 
 
 
 
@@ -402,7 +458,42 @@
                 * database:
                     * データベースファイルの保存場所とファイル名を指定するもの
 
+* 新しいMVCを作る流れ
+    1. テーブルの設計
+        * データベースを利用するアプリをつくるとき, 最初に「データベース設計」を考える. 
+        * どのようなデータをどういう形で保存していけばいいかを考え, 用意しておくべきテーブルの仕様を決める
+    2. モデルの設計
+    3. コントローラとビューの作成
+    4. 処理とテンプレートを作成
+        * 書くアクションの処理とテンプレートを並行して作成していく
+        *  コントローラ全体を一度に作ろうとせず, 1つ1つのアクションごとに必要な処理を整理しながらプログラミングしていく
+    5. その他残りを作成
+        * スタイルシートやルーティング設定など
+
+    * データベースの設計を
+
+* コントローラはモデルの複数形の名前にするのが一般的
+
+* モデルの基本メソッド
+    |||
+    |----|----|
+    |all    |すべてのデータを取り出す|
+    |find   |ID番号を引数に指定すると, そのデータを取り出す|
+    |create |データを引数に指定すると, そのデータを作成する|
+    |update |データを引数に指定すると, その内容にデータを更新する|
+    |destroy|データを削除する|
+
+* モデル利用の手順
+    1. `rails generate model`を使って作成
+    2. マイグレーションの実行 `rails db:migrate`を使う
+    3. シードの実行 `rails db:seed`を使う
+
+* モデル保存はフォームヘルパーを使う
+    * フォーム送信された値はパーミッションの処理をしないとうまく保存できない
+
+* モデルは細かな点で「これを忘れると動かない」がある
+    * マイグレーション
+    * パーミッション
+    * ルーティングのPATCH
 
 
-
- 

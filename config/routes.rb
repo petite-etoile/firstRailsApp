@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  get 'cards/index'
+  get 'cards/show'
+  get 'cards/add'
+  get 'cards/edit'
+
+  post "cards/add"
+  get "cards/delete/:id" => "cards#delete"
+  get "cards/edit/:id" => "cards#edit"
+  patch "cards/edit/:id" => "cards#edit"
+  # post "cards/delete/:id" => "cards#delete"
+
+
+
+
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get "hello/index"
   get "hello" => "hello#index14" #helloにアクセスされたとき, helloコントローラのアクションであるindexを呼び出すということ
