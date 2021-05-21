@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RailsApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css"> 
+</head>
+
+<%= stylesheet_link_tag("people", media:"all", "data-turbolinks-track": "reload")%>
+
+<body class="container" >
+    <%= yield %>
+</body>
+</html>

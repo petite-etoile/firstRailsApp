@@ -302,10 +302,137 @@
     |edit  | idパラメータの値を元に`Card.find`でそのIDのデータを取り出し, `@card`に保管します. POST送信されていた場合, `card_params`を引数に指定して`update`を呼, データを更新 |
     |delete|  idパラメータの値を元に, `Card.find`でそのIDのデータを取り出し, そのインスタンスの`destroy`を呼び出してデータを削除|
 
-* 
+
+### peopleコントローラ　
+
+* layoutを示すコードの中で, stylesheet_link_tagを使用. 
+    ```
+    <%= stylesheet_link_tag( スタイルシート名, ...属性...%>
+    ```
+    スタイルシートは`/app/assets/stysheets/`の中にある.<br>
+    今回指定した属性
+    |||
+    |----|----|
+    |media:"all"|<link>にmedia属性を付きあする. スタイルシートを使用するメディアやデバイスを指定するもの
+    |"data-turbokinks":"reload"|元のスタイルデータの修正に応じてリロードさせるもの|
+
+* `[find1]` idを入力してモデル名.findを使った検索
+
+* `[find2]` where文で検索
+    ```
+    @変数 = モデル.where( "項目名 >= ?", 値)
+    ```
+* `[find3]` where文でLIKE検索
+    ```
+    @変数 = モデル.where( "項目名 LIKE ?", 値)
+    ```
+* `[find4]` find文で複数選択. 引数に配列を渡す
+    ```
+    f = params[:find].split(",")
+    @変数 = モデル.find(f)
+    ``` 
+
+* `[find5]` データの並び順の変更
+    ```
+    変数 = モデル.where( 〇〇 ).order(項目名 asc ) 
+    変数 = モデル.where( 〇〇 ).order(項目名 desc)
+    ```
+
+* `[find6]` データの表示数と, なんばんめから表示するか
+    ```
+    @変数 = モデル.all.limit(表示数).offset(何個飛ばすか))
+    ```
+
+* バリデーションを設定 `/app/models/person.rb`
+    ```
+    validates 項目名, ルール: 値
+    ```
+    |||
+    |----|----|
+    |presence: true  | 必須項目にする|
+    |uniqueness: true| 指定した項目の値がuniqueでなければいけない|
+    |numericality: true| 数字かどうかチェック|
+    |numericality: {設定: 値, 設定: 値, ...}| その他設定|
+    |length: {設定: 値, 設定: 値, ...}|テキストの長さをチェック|
+    |inclusion: {in [A,B,...]}|配列の中に含まれた値|
+    |exclusion: {in [A,B,...]}|配列の中に含まれてない値|
+    |format: {with:正規表現}|正規表現を使ったパターンにマッチするかチェック|
 
 
+    * `numericality`のオプション設定
+        |||
+        |----|----|
+        |only_integer|整数|
+        |greater_than|指定した値より大きい|
+        |greater_than_or_equal_to|指定した値以上|
+        |less_than|指定した値より小さい|
+        |less_than_or_equal_to|指定した値以下|
+        |equal_to|指定した値と等しい|
+        |eval|偶数|
+        |odd|奇数|
+    * `length`のオプション設定
+        |||
+        |----|----|
+        |maximum|最大文字数を指定|
+        |minimum|最小文字数を指定|
+        |is|指定の文字数|
+        |within|文字数の範囲を`A..B`のように指定|
+        |tokenizer|テキストを分割するためのもの. 実行する処理をラムダ式でまとめたものを値として用意|
+    * 
 
+
+* `[add3, create3]` アクションでバリデーションチェック
+    ```
+    @変数 = モデル.new(パーミットされたあれ)
+    if @変数.save()
+        //保存成功
+    else
+        //保存失敗
+    end    
+    ```
+
+* `[add4, create4]` エラーメッセージの表示 
+    ```
+    @変数 = モデル.new(パーミットされたあれ)
+    if @変数.save()
+        //保存成功
+    else
+        //保存失敗
+        @変数.errors.messages.each do |key,vals|
+            //key と vals で@msgを作る
+    end    
+    ```
+    
+* `[add4, create4]` エラーメッセージを日本語に変更. `/app/models/person.rb`のvalidatesの設定の部分を以下のように変更
+    ```
+    validates :name, presence: {message: "は,必須項目です."}
+    validates :age,  numericality: {message: "は,数字で入力してください."}
+    ```
+
+* `[add5, create5]` メッセージをコントローラで取得したりするのは不自然なので, ビュー側でメッセージを表示する.
+    ```
+    <%if @person.errors.any?%>
+        <ul>
+            <% @person.errors.full_messages.each do |err|%>
+                <li><%= err %></li>
+            <% end%>
+        </ul>
+    <% end %>
+    ```
+* 自作validator `/app/validator/`を作成し, `/app/validator/email_validator.rb`を用意
+    ```
+    class EmailValidator < ActiveModel::EachValidator
+        def validate_each(record, attribute, value)
+            unless value =~ /\A([^p\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+                record.errors[attribute] << (options[:message] || "is not an email") 
+            end
+        end
+    end
+    ```
+    `/app/models/person.rb`でemailのvalidateを追加
+    ```
+    validates :mail,  email: {message: "はメールアドレスではありません"}
+    ```
 
 
 
@@ -497,3 +624,13 @@
     * ルーティングのPATCH
 
 
+* バリデーションとは
+    * モデルを保存しようとするときに, それぞれの項目の値が正しく設定されているかをチェックするための仕組み
+    * 保存する際に自動的にバリデーションが実行されるようになっている.
+
+* ` create3`で`@person`をもとにフォームに表示する
+    * 今回, 間違った値を書いて送信すると, メッセージが表示されて保存されない.
+    * しかし, フォームの各項目には先に送信した値がそのまま表示されている
+        * `Person.new(person_params())`で作成したインスタンスがそのまま`@person`に設定されていたため, フォームにppersonが設定されて, その値が各フィールドに値として表示された
+    * バリデーションはチェックで再入力になった場合も, 作成してあったモデルオブジェクトがそのままフォームに設定され項目に値が表示される
+        * だから, できるだけフォームヘルパーでモデルインスタンスを`form_for`に設定して使うべき

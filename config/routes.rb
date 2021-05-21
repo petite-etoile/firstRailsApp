@@ -66,13 +66,36 @@ Rails.application.routes.draw do
   post "people/add1" => "people#create1"
   get  "people/add2"
   post "people/add2" => "people#create2"
+  get  "people/add3"
+  post "people/add3" => "people#create3"
+  get  "people/add4"
+  post "people/add4" => "people#create4"
+  get  "people/add5"
+  post "people/add5" => "people#create5"
 
   get "people/edit/:id" => "people#edit"
   patch "people/update/:id" => "people#update"
   
   get "people/delete/:id" => "people#delete"
 
+  get "people/find"
+  post "people/find"
+
+  get "people/find1"
+  post "people/find1"
+
+  get "people/find2"
+  post "people/find2"
+
+  get "people/find3"
+  post "people/find3"
   
+  get "people/find4"
+  post "people/find4"
+
+  get "people/find5"
+  post "people/find5"
+
   get 'people/:id' => "people#show"
 
 
