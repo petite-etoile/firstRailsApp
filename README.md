@@ -434,6 +434,60 @@
     validates :mail,  email: {message: "はメールアドレスではありません"}
     ```
 
+### Messageモデル
+* Messageモデルの作成
+    ```
+    $ rails generate model message person_id:integer title:text message:text
+
+    $ rails db:migrate
+    ```
+
+* Messageモデルのvalidate `/app/models/messages.rb`
+    ```
+    class Message < ApplicationRecord
+        validates :message, presence: {message:"をかいてください"}
+    end
+    ```
+
+*  コントローラの作成
+    ```
+    rails generate controller messages index show add edit
+    ```
+    
+
+* まず, index, add, show, edit, delete をpersonコントローラと同様に作成する
+
+### Personモデル
+
+* has_oneアソシエーションの基本「has_one」を使ってみる(has_oneは　主データ一つに従データが一つ関連づけられる　というもの)
+    * Personモデルを主, Messageモデルを従とする(`/app/models/person.rb`)
+        ```
+            has_one :message
+        ```
+    * personのshowページでそのPersonが投稿したMessageのタイトルを一つ表示する(`app/views/people/show2.html.erb`)
+
+* has_manyアソシエーション
+    * 1対多 (`/app/models/person.rb`)
+        ```
+            has_many :message
+        ```
+    * personのshowページでそのPersonが投稿したMessageのタイトルをすべて表示する(`app/views/people/show3.html.erb`)
+    
+### Messageモデル
+* belongs_toアソシエーション
+    * 従データ側から関連づけられている主データを取り出す(`/app/models/message.rb`)
+    ```
+        belongs_to :person
+    ```
+
+    * messageのshowページで
+
+
+### Mycontactモデル
+* scaffoldでCRUD部分を作成
+    ```
+    
+    ```
 
 
 <br><br>

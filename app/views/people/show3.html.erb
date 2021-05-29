@@ -1,0 +1,36 @@
+
+<h1 class="display-4 text-primary"> People#index </h1>
+<p> <%= @msg %> </p>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <td> <%= @data.id %> </td>
+    </tr>
+        
+    <tr>
+        <th>Name</th>
+        <td> <%= @data.name %> </td>
+    </tr>
+
+    <tr>
+        <th>Age</th>
+        <td> <%= @data.age %> </td>
+    </tr>
+
+    <tr>
+        <th>Mail</th>
+        <td> <%= @data.mail %> </td>
+    </tr>
+
+    <tr>
+        <th>Message</th>
+        <%puts ";#{@data.message}"  %>
+        <% if @data.message != nil  %> 
+            <% @data.message.each do |obj|%>
+                <%= "「#{obj.title}」"%>
+            <% end %>
+        <% end %>
+        <td> </td>
+
+    </tr>
+</table>

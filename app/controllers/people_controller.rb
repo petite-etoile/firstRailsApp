@@ -18,7 +18,31 @@ class PeopleController < ApplicationController
     @data = Person.all
   end
 
+  def index4
+    #http://localhost:3000/people/index4
+    @msg = "Person data"
+    @data = Person.all
+  end
+
+  def index5
+    #http://localhost:3000/people/index5
+    @msg = "Person data"
+    @data = Person.all
+  end
+
   def show
+    @msg = "Indexed data"
+    @data = Person.find(params[:id])
+  end
+
+  def show2
+    #http://localhost:3000/people/index4 から
+    @msg = "Indexed data"
+    @data = Person.find(params[:id])
+  end
+
+  def show3
+    #http://localhost:3000/people/index5 から
     @msg = "Indexed data"
     @data = Person.find(params[:id])
   end

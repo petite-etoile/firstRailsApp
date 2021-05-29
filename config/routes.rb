@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  resources :mycontacts
+  get 'messages/index'
+  get 'messages/index2'
+  get 'messages/show'
+  get 'messages/add'
+  post "messages/update"
+  get "messages/delete/:id" => "messages#delete"
+  get 'messages/edit/:id' => "messages#edit"
+  post 'messages/create'
+  patch "/messages/update/:id" => "messages#update"
+  get 'messages/:id' => "messages#show"
+
+
   get 'cards/index'
   get 'cards/show'
   get 'cards/add'
@@ -58,6 +71,8 @@ Rails.application.routes.draw do
   get 'people/index1'
   get 'people/index2'
   get 'people/index3'
+  get 'people/index4'
+  get 'people/index5'
   get 'people' => "people#index"
   
   get  "people/add"
@@ -97,6 +112,9 @@ Rails.application.routes.draw do
   post "people/find5"
 
   get 'people/:id' => "people#show"
+  get 'people/show/:id' => "people#show"
+  get 'people/show2/:id' => "people#show2"
+  get 'people/show3/:id' => "people#show3"
 
 
 
